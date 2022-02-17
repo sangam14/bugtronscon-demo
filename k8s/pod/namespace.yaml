@@ -1,0 +1,16 @@
+apiVersion: v1 
+kind : Namespace 
+metadata:
+  name: developement 
+---
+apiVersion: v1 
+kind: pod 
+metadata:
+   namespace: developement
+   name: naespacepod 
+spec:
+  containers:
+    - name: namespacecontainer 
+      image: ngnix:latest 
+      ports:
+        - containerPort: 80    

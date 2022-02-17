@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rolldeployment
+  labels:
+    team: development
+spec:
+  replicas: 10                     
+  selector:
+    matchLabels:                     # labelselector of deployment: selects pods which have "app:rolling" labels
+      app: rolling
+  strategy:
+    type: RollingUpdate              # deployment roll up strategy: rollingUpdate => Pods are updated step by step, all pods are not deleted at the same time.
+    rollingUpdate:                   
+      maxUnavailable: 2              # shows the max number of deleted containers => total:10 container; if maxUnava:2, min:8 containers run in that time period
+      maxSurge: 2                    # shows that the max number of containers    => total:10 container; if maxSurge:2, max:12 containers run in a time
+  template:
+    metadata:
+      labels:                        # labels the pod with "app:rolling"
+        app: rolling
+    spec:
+    containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80

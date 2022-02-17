@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rcdeployment
+  labels:
+    team: development
+spec:
+  replicas: 5                        # create 5 replicas
+  selector:
+    matchLabels:                     # labelselector of deployment: selects pods which have "app:recreate" labels
+      app: recreate
+  strategy:                          # deployment roll up strategy: recreate => Delete all pods firstly and create Pods from scratch.
+    type: Recreate
+  template:
+    metadata:
+      labels:                        # labels the pod with "app:recreate" 
+        app: recreate
+    spec:
+    containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
